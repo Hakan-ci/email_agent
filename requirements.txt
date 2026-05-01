@@ -1,0 +1,30 @@
+# ========================================
+# AI-Powered Gmail Intelligence System
+# Python Dependencies
+# ========================================
+
+# --- LLM & AI Framework ---
+langchain>=0.3.0
+langchain-openai>=0.3.0
+langchain-core>=0.3.0
+openai>=1.60.0
+pydantic>=2.10.0
+
+# --- Google / Gmail API ---
+google-api-python-client>=2.160.0
+google-auth>=2.38.0
+google-auth-oauthlib>=1.2.1
+google-auth-httplib2>=0.2.0
+
+# --- Database (PostgreSQL) ---
+psycopg2-binary>=2.9.10
+sqlalchemy>=2.0.37
+
+# --- Telegram Bot ---
+requests>=2.32.0
+
+# --- Environment & Configuration ---
+python-dotenv>=1.1.0
+
+# --- Logging & Utilities ---
+colorlog>=6.9.0
