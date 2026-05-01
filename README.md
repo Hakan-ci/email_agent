@@ -15,7 +15,7 @@
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Disclaimer](#disclaimer)
-- [License](#license)
+
 
 ---
 
@@ -206,11 +206,7 @@ All configuration is managed via the `.env` file. See [`.env.example`](.env.exam
 - AI-generated summaries may not be 100% accurate — always verify critical information.
 - The authors are not responsible for missed emails, incorrect classifications, or any consequences arising from the use of this software.
 
----
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
