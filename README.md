@@ -208,8 +208,4 @@ All configuration is managed via the `.env` file. See [`.env.example`](.env.exam
 
 
 
----
 
-<p align="center">
-  Built with ❤️ using LangChain, OpenAI, and the Gmail API
-</p>
