@@ -5,6 +5,7 @@ Sets up color-coded, structured console logging for the entire application.
 Call `setup_logging()` once at startup before any other imports log messages.
 """
 
+import io
 import logging
 import sys
 
@@ -42,8 +43,8 @@ def setup_logging() -> None:
     if _HAS_COLORLOG:
         formatter = colorlog.ColoredFormatter(
             fmt=(
-                "%(log_color)s%(asctime)s │ %(levelname)-8s │ "
-                "%(name)-28s │ %(message)s%(reset)s"
+                "%(log_color)s%(asctime)s | %(levelname)-8s | "
+                "%(name)-28s | %(message)s%(reset)s"
             ),
             datefmt="%Y-%m-%d %H:%M:%S",
             log_colors={
@@ -57,13 +58,19 @@ def setup_logging() -> None:
     else:
         formatter = logging.Formatter(
             fmt=(
-                "%(asctime)s │ %(levelname)-8s │ "
-                "%(name)-28s │ %(message)s"
+                "%(asctime)s | %(levelname)-8s | "
+                "%(name)-28s | %(message)s"
             ),
             datefmt="%Y-%m-%d %H:%M:%S",
         )
 
-    console_handler = logging.StreamHandler(sys.stdout)
+    # Use a UTF-8 wrapped stream to avoid UnicodeEncodeError on Windows
+    # consoles that default to cp1252/cp1254.
+    utf8_stream = io.TextIOWrapper(
+        sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True
+    )
+
+    console_handler = logging.StreamHandler(utf8_stream)
     console_handler.setLevel(log_level)
     console_handler.setFormatter(formatter)
 

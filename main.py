@@ -28,8 +28,6 @@ from src.ai.schemas import ImportanceLevel
 from src.telegram.notifier import TelegramNotifier
 from src.telegram.formatter import format_email_notification, format_junk_summary
 
-# ── Bootstrap logging first ─────────────────────────────────────
-setup_logging()
 logger = logging.getLogger(__name__)
 
 
@@ -59,7 +57,7 @@ def initialize_services() -> tuple[
         logger.info("[1/4] Initializing database connection...")
         db = DatabaseHandler()
         db.initialize()
-        logger.info("[1/4] ✓ Database ready.")
+        logger.info("[1/4] Database ready.")
     except Exception as exc:
         logger.critical("Failed to initialize database: %s", exc)
         sys.exit(1)
@@ -70,7 +68,7 @@ def initialize_services() -> tuple[
         auth = GmailAuthenticator()
         gmail_api = auth.get_gmail_service()
         gmail = GmailService(gmail_api)
-        logger.info("[2/4] ✓ Gmail API authenticated.")
+        logger.info("[2/4] Gmail API authenticated.")
     except FileNotFoundError as exc:
         logger.critical("Gmail credentials not found: %s", exc)
         sys.exit(1)
@@ -82,7 +80,7 @@ def initialize_services() -> tuple[
     try:
         logger.info("[3/4] Initializing AI analyzer (model: %s)...", settings.OPENAI_MODEL)
         analyzer = EmailAnalyzer()
-        logger.info("[3/4] ✓ AI analyzer ready.")
+        logger.info("[3/4] AI analyzer ready.")
     except Exception as exc:
         logger.critical("Failed to initialize AI analyzer: %s", exc)
         sys.exit(1)
@@ -92,9 +90,9 @@ def initialize_services() -> tuple[
         logger.info("[4/4] Connecting to Telegram Bot API...")
         notifier = TelegramNotifier()
         if notifier.verify_connection():
-            logger.info("[4/4] ✓ Telegram bot verified.")
+            logger.info("[4/4] Telegram bot verified.")
         else:
-            logger.warning("[4/4] ⚠ Telegram bot could not be verified. Notifications may fail.")
+            logger.warning("[4/4] Telegram bot could not be verified. Notifications may fail.")
     except Exception as exc:
         logger.warning("Telegram setup issue (non-fatal): %s", exc)
         notifier = TelegramNotifier()
@@ -163,7 +161,7 @@ def process_email(
             logger.error("Telegram notification failed: %s", exc)
             # Continue — don't block the pipeline for notification errors
     else:
-        logger.info("Email classified as JUNK — skipping notification.")
+        logger.info("Email classified as JUNK - skipping notification.")
 
     # ── Step 4: Database Logging ─────────────────────────────────
     try:
@@ -223,7 +221,7 @@ def run_polling_loop(
 
     while True:
         cycle += 1
-        logger.info("─" * 50)
+        logger.info("-" * 50)
         logger.info("Polling cycle #%d", cycle)
 
         try:
@@ -262,7 +260,7 @@ def run_polling_loop(
 
             # ── Cycle Summary ────────────────────────────────────
             logger.info(
-                "Cycle #%d complete — %d email(s) processed. Sleeping %ds...",
+                "Cycle #%d complete - %d email(s) processed. Sleeping %ds...",
                 cycle,
                 processed_count,
                 interval,
@@ -285,6 +283,8 @@ def run_polling_loop(
 
 def main() -> None:
     """Application entry point with graceful shutdown handling."""
+    setup_logging()
+
     try:
         db, gmail, analyzer, notifier = initialize_services()
         run_polling_loop(db, gmail, analyzer, notifier)
@@ -305,7 +305,7 @@ def main() -> None:
             db.close()  # type: ignore[possibly-undefined]
         except Exception:
             pass
-        logger.info("Goodbye! 👋")
+        logger.info("Goodbye!")
 
 
 if __name__ == "__main__":

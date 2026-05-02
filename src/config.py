@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 # Load .env from project root
 _env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=_env_path)
+load_dotenv(dotenv_path=_env_path, override=True)
 
 
 class Settings:
